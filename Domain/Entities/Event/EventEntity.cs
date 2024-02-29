@@ -19,12 +19,15 @@ namespace Domain.Entities.Event
 
         public string? Link { get; set; }
 
+        [Required]
         public long ConsultorId { get; set; }
+
+        [Required]
+        public long ClientId { get; set; }
 
         [Required]
         public DateTime Ocurrence { get; set; }
 
-        [Required]
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }

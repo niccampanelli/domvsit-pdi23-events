@@ -20,6 +20,9 @@ namespace Application.Event.Commands.Validations
             RuleFor(i => i.ConsultorId)
                 .NotEmpty().WithMessage("O id do usuário não foi informado")
                 .NotNull().WithMessage("A id do usuário não foi informado");
+            RuleFor(i => i.ClientId)
+                .NotEmpty().WithMessage("O id do cliente não foi informado")
+                .NotNull().WithMessage("A id do cliente não foi informado");
         }
     }
 }

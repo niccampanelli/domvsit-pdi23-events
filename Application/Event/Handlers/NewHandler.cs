@@ -39,6 +39,7 @@ namespace Application.Event.Handlers
                     Tags = input.Tags,
                     Link = input.Link,
                     ConsultorId = input.ConsultorId,
+                    ClientId = input.ClientId,
                     Ocurrence = input.Ocurrence,
                     EventAttendants = input.EventAttendants.Select(e => new EventAttendantDto()
                     {

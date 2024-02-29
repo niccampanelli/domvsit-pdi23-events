@@ -1,6 +1,7 @@
 ﻿using Application.Boundaries.Commom;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
+using Application.Event.Boundaries.Update;
 using Application.Event.Commands;
 using Domain.Base.Communication.Mediator;
 using Domain.Base.Messages.Common.Notification;
@@ -48,6 +49,7 @@ namespace API.Controllers
                 Link = input.Link,
                 Ocurrence = input.Ocurrence,
                 ConsultorId = long.Parse(userIdHeader),
+                ClientId = input.ClientId
             };
 
             var command = new NewCommand(commandInput);
@@ -72,6 +74,37 @@ namespace API.Controllers
         {
             var command = new ListCommand(input);
             var result = await _mediatorHandler.SendCommand<ListCommand, PaginatedResponse<ListOutput>>(command);
+
+            if (IsValidOperation())
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(GetMessages());
+            }
+        }
+
+        [HttpPut("[action]/{id}")]
+        [SwaggerOperation(Summary = "Atualizar evento", Description = "Atualiza as informações de um evento.")]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(UpdateOutput))]
+        [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
+        [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
+        public async Task<IActionResult> Update(long id, [FromBody] UpdateControllerInput input)
+        {
+            var commandInput = new UpdateInput()
+            {
+                Id = id,
+                Title = input.Title,
+                Description = input.Description,
+                Link = input.Link,
+                Tags = input.Tags,
+                Ocurrence = input.Ocurrence,
+                EventAttendants = input.EventAttendants
+            };
+
+            var command = new UpdateCommand(commandInput);
+            var result = await _mediatorHandler.SendCommand<UpdateCommand, UpdateOutput>(command);
 
             if (IsValidOperation())
             {

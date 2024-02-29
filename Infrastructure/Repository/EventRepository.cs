@@ -42,33 +42,33 @@ namespace Infrastructure.Repository
                 {
                     case "title":
                         if (sorting?.SortOrder != null && sorting.SortOrder.ToLower().Trim().Equals("desc"))
-                            query = query.OrderByDescending(x => x.Title);
+                            query = query.OrderByDescending(e => e.Title);
                         else
-                            query = query.OrderBy(x => x.Title);
+                            query = query.OrderBy(e => e.Title);
                         break;
                     case "ocurrence":
                         if (sorting?.SortOrder != null && sorting.SortOrder.ToLower().Trim().Equals("desc"))
-                            query = query.OrderByDescending(x => x.Ocurrence);
+                            query = query.OrderByDescending(e => e.Ocurrence);
                         else
-                            query = query.OrderBy(x => x.Ocurrence);
+                            query = query.OrderBy(e => e.Ocurrence);
                         break;
                     case "createdAt":
                         if (sorting?.SortOrder != null && sorting.SortOrder.ToLower().Trim().Equals("desc"))
-                            query = query.OrderByDescending(x => x.CreatedAt);
+                            query = query.OrderByDescending(e => e.CreatedAt);
                         else
-                            query = query.OrderBy(x => x.CreatedAt);
+                            query = query.OrderBy(e => e.CreatedAt);
                         break;
                     case "updatedAt":
                         if (sorting?.SortOrder != null && sorting.SortOrder.ToLower().Trim().Equals("desc"))
-                            query = query.OrderByDescending(x => x.UpdatedAt);
+                            query = query.OrderByDescending(e => e.UpdatedAt);
                         else
-                            query = query.OrderBy(x => x.UpdatedAt);
+                            query = query.OrderBy(e => e.UpdatedAt);
                         break;
                     default:
                         if (sorting?.SortOrder != null && sorting.SortOrder.ToLower().Trim().Equals("desc"))
-                            query = query.OrderByDescending(x => x.CreatedAt);
+                            query = query.OrderByDescending(e => e.CreatedAt);
                         else
-                            query = query.OrderBy(x => x.CreatedAt);
+                            query = query.OrderBy(e => e.CreatedAt);
                         break;
                 }
             }
@@ -91,6 +91,11 @@ namespace Infrastructure.Repository
             if (input.ConsultorId != null)
             {
                 query = query.Where(e => e.ConsultorId == input.ConsultorId);
+            }
+
+            if (input.ClientId != null)
+            {
+                query = query.Where(e => e.ClientId == input.ClientId);
             }
 
             var result = query.Select(e => e.MapToDto());

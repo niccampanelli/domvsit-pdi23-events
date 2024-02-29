@@ -8,6 +8,7 @@
         public List<string>? Tags { get; set; }
         public string? Link { get; set; }
         public long ConsultorId { get; set; }
+        public long ClientId { get; set; }
         public DateTime Ocurrence { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

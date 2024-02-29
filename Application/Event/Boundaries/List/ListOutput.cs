@@ -47,6 +47,13 @@ namespace Application.Event.Boundaries.List
         public long ConsultorId { get; set; }
 
         [SwaggerSchema(
+            Title = "Id do cliente",
+            Description = "Id do cliente associado ao evento",
+            Format = "long"
+            )]
+        public long ClientId { get; set; }
+
+        [SwaggerSchema(
             Title = "Ocorrência",
             Description = "Data da ocorrência do evento",
             Format = "DateTime"

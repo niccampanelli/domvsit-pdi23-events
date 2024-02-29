@@ -62,6 +62,7 @@ namespace Application.Event.Handlers
                         Tags = e.Tags,
                         Link = e.Link,
                         ConsultorId = e.ConsultorId,
+                        ClientId = e.ClientId,
                         Ocurrence = e.Ocurrence,
                         CreatedAt = e.CreatedAt ?? DateTime.UtcNow,
                         UpdatedAt = e.UpdatedAt ?? DateTime.UtcNow,

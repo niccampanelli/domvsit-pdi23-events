@@ -1,10 +1,17 @@
 ﻿using Swashbuckle.AspNetCore.Annotations;
 
-namespace Application.Event.Boundaries.New
+namespace Application.Event.Boundaries.Update
 {
-    [SwaggerSchema(Required = new string[] { "Title", "Description", "Ocurrence", "ConsultorId", "ClientId", "EventAttendants" })]
-    public class NewInput
+    [SwaggerSchema(Required = new string[] { "Id", "Title", "Description", "Ocurrence", "EventAttendants" })]
+    public class UpdateInput
     {
+        [SwaggerSchema(
+            Title = "Id",
+            Description = "Id do evento",
+            Format = "long"
+            )]
+        public long Id { get; set; }
+
         [SwaggerSchema(
             Title = "Titulo",
             Description = "Titulo do evento",
@@ -41,24 +48,10 @@ namespace Application.Event.Boundaries.New
         public DateTime Ocurrence { get; set; }
 
         [SwaggerSchema(
-            Title = "Id do consultor",
-            Description = "Id do usuário responsável pelo evento",
-            Format = "long"
-            )]
-        public long ConsultorId { get; set; }
-
-        [SwaggerSchema(
-            Title = "Id do cliente",
-            Description = "Id do cliente associado ao evento",
-            Format = "long"
-            )]
-        public long ClientId { get; set; }
-
-        [SwaggerSchema(
             Title = "Participantes do evento",
             Description = "Participantes que precisam estar no evento",
-            Format = "List<NewEventAttendantInput>"
+            Format = "List<UpdateEventAttendantInput>"
             )]
-        public List<NewEventAttendantInput> EventAttendants { get; set; }
+        public List<UpdateEventAttendantInput> EventAttendants { get; set; }
     }
 }

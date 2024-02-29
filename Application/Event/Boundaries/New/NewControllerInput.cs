@@ -2,7 +2,7 @@
 
 namespace Application.Event.Boundaries.New
 {
-    [SwaggerSchema(Required = new string[] { "Title", "Description", "Ocurrence", "EventAttendants" })]
+    [SwaggerSchema(Required = new string[] { "Title", "Description", "Ocurrence", "ClientId", "EventAttendants" })]
     public class NewControllerInput
     {
         [SwaggerSchema(
@@ -39,6 +39,13 @@ namespace Application.Event.Boundaries.New
             Format = "DateTime"
             )]
         public DateTime Ocurrence { get; set; }
+
+        [SwaggerSchema(
+            Title = "Id do cliente",
+            Description = "Id do cliente associado ao evento",
+            Format = "long"
+            )]
+        public long ClientId { get; set; }
 
         [SwaggerSchema(
             Title = "Participantes do evento",

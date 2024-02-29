@@ -1,6 +1,7 @@
 ﻿using Application.Boundaries.Commom;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
+using Application.Event.Boundaries.Update;
 using Application.Event.Commands;
 using Application.Event.Handlers;
 using Application.UseCase.Event;
@@ -21,6 +22,7 @@ namespace API.Setup
 
             services.AddTransient<IRequestHandler<NewCommand, NewOutput>, NewHandler>();
             services.AddTransient<IRequestHandler<ListCommand, PaginatedResponse<ListOutput>>, ListHandler>();
+            services.AddTransient<IRequestHandler<UpdateCommand, UpdateOutput>, UpdateHandler>();
 
             services.AddScoped<IEventUseCase, EventUseCase>();
 
