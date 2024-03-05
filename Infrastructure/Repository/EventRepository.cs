@@ -70,6 +70,25 @@ namespace Infrastructure.Repository
             return default;
         }
 
+        public async Task Accept(AcceptInputDto input)
+        {
+            var entity = await _databaseContext.EventAttendants.Where(e => e.EventId == input.EventId).Where(e => e.AttendantId == input.AttendantId).FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                if (input.Accepted != null)
+                {
+                    entity.Accepted = (bool) input.Accepted;
+                }
+                else
+                {
+                    entity.Accepted = !entity.Accepted;
+                }
+
+                await _databaseContext.SaveChangesAsync();
+            }
+        }
+
         public async Task<int> Count()
         {
             var result = await _databaseContext.Events.CountAsync();

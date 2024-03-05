@@ -14,5 +14,9 @@ namespace Domain.Entities.Event
 
         [Required]
         public long AttendantId { get; set; }
+
+        public bool Accepted { get; set; }
+
+        public bool ShowedUp { get; set; }
     }
 }

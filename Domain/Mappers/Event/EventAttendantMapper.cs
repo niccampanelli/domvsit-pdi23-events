@@ -11,7 +11,9 @@ namespace Domain.Mappers.Event
             {
                 Id = input.Id,
                 EventId = input.EventId,
-                AttendantId = input.AttendantId
+                AttendantId = input.AttendantId,
+                Accepted = input.Accepted,
+                ShowedUp = input.ShowedUp
             };
         }
 
@@ -21,7 +23,9 @@ namespace Domain.Mappers.Event
             {
                 Id = input.Id,
                 EventId = input.EventId,
-                AttendantId = input.AttendantId
+                AttendantId = input.AttendantId,
+                Accepted = input.Accepted,
+                ShowedUp = input.ShowedUp
             };
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Application.Boundaries.Commom;
+using Application.Event.Boundaries.Accept;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
 using Application.Event.Boundaries.Update;
@@ -20,6 +21,7 @@ namespace API.Setup
             services.AddScoped<IMediatorHandler, MediatorHandler>();
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
+            services.AddTransient<IRequestHandler<AcceptCommand, AcceptOutput>, AcceptHandler>();
             services.AddTransient<IRequestHandler<NewCommand, NewOutput>, NewHandler>();
             services.AddTransient<IRequestHandler<ListCommand, PaginatedResponse<ListOutput>>, ListHandler>();
             services.AddTransient<IRequestHandler<UpdateCommand, UpdateOutput>, UpdateHandler>();

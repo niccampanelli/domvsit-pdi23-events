@@ -21,7 +21,7 @@ namespace Application.UseCase.Event
         }
 
         public async Task<EventDto> Update(long id, UpdateInputDto input)
-        {;
+        {
             input.UpdatedAt = DateTime.UtcNow;
             return await _eventRepository.Update(id, input);
         }
@@ -29,6 +29,11 @@ namespace Application.UseCase.Event
         public async Task<int> Count()
         {
             return await _eventRepository.Count();
+        }
+
+        public async Task Accept(AcceptInputDto input)
+        {
+            await _eventRepository.Accept(input);
         }
 
         public async Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting)

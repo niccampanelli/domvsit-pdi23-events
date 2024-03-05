@@ -70,7 +70,9 @@ namespace Application.Event.Handlers
                         {
                             Id = e.Id ?? 0L,
                             AttendantId = e.AttendantId,
-                            EventId = e.EventId ?? 0L
+                            EventId = e.EventId ?? 0L,
+                            Accepted = e.Accepted,
+                            ShowedUp = e.ShowedUp
                         }).ToList()
                     }).ToList(),
                     Total = eventCount

@@ -1,4 +1,5 @@
 ﻿using Application.Boundaries.Commom;
+using Application.Event.Boundaries.Accept;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
 using Application.Event.Boundaries.Update;
@@ -105,6 +106,33 @@ namespace API.Controllers
 
             var command = new UpdateCommand(commandInput);
             var result = await _mediatorHandler.SendCommand<UpdateCommand, UpdateOutput>(command);
+
+            if (IsValidOperation())
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(GetMessages());
+            }
+        }
+
+        [HttpPost("[action]/{id}")]
+        [SwaggerOperation(Summary = "Aceitar evento", Description = "Registra que o participante que realizou a solicitação aceitou o evento.")]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(AcceptOutput))]
+        [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
+        [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
+        public async Task<IActionResult> Accept(long id, [FromBody] AcceptControllerInput? input)
+        {
+            var commandInput = new AcceptInput()
+            {
+                EventId = id,
+                AttendantId = input?.AttendantId ?? 1L,
+                Accepted = input?.Accepted
+            };
+
+            var command = new AcceptCommand(commandInput);
+            var result = await _mediatorHandler.SendCommand<AcceptCommand, AcceptOutput>(command);
 
             if (IsValidOperation())
             {
