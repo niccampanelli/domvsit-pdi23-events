@@ -2,7 +2,6 @@
 
 namespace Application.Event.Boundaries.Update
 {
-    [SwaggerSchema(Required = new string[] { "Id", "Title", "Description", "Ocurrence", "EventAttendants" })]
     public class UpdateInput
     {
         [SwaggerSchema(
@@ -17,14 +16,14 @@ namespace Application.Event.Boundaries.Update
             Description = "Titulo do evento",
             Format = "string"
             )]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [SwaggerSchema(
             Title = "Descrição",
             Description = "Descrição do evento",
             Format = "string"
             )]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [SwaggerSchema(
             Title = "Tags",
@@ -45,13 +44,13 @@ namespace Application.Event.Boundaries.Update
             Description = "Data em que o evento ocorrerá",
             Format = "DateTime"
             )]
-        public DateTime Ocurrence { get; set; }
+        public DateTime? Ocurrence { get; set; }
 
         [SwaggerSchema(
             Title = "Participantes do evento",
             Description = "Participantes que precisam estar no evento",
             Format = "List<UpdateEventAttendantInput>"
             )]
-        public List<UpdateEventAttendantInput> EventAttendants { get; set; }
+        public List<UpdateEventAttendantInput>? EventAttendants { get; set; }
     }
 }

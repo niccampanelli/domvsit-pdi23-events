@@ -20,6 +20,12 @@ namespace Application.UseCase.Event
             return await _eventRepository.New(input);
         }
 
+        public async Task<EventDto> Update(long id, UpdateInputDto input)
+        {;
+            input.UpdatedAt = DateTime.UtcNow;
+            return await _eventRepository.Update(id, input);
+        }
+
         public async Task<int> Count()
         {
             return await _eventRepository.Count();

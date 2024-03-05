@@ -2,7 +2,6 @@
 
 namespace Application.Event.Boundaries.Update
 {
-    [SwaggerSchema(Required = new string[] { "AttendantId" })]
     public class UpdateEventAttendantInput
     {
         [SwaggerSchema(

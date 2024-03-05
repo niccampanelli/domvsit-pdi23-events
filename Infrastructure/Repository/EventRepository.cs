@@ -1,5 +1,6 @@
 ﻿using Domain.Dto.Commom;
 using Domain.Dto.Event;
+using Domain.Entities.Event;
 using Domain.Mappers.Event;
 using Domain.Repository;
 using Infrastructure.Setup;
@@ -23,6 +24,50 @@ namespace Infrastructure.Repository
             var result = await _databaseContext.Events.AddAsync(entity);
             await _databaseContext.SaveChangesAsync();
             return result.Entity.MapToDto();
+        }
+
+        public async Task<EventDto> Update(long id, UpdateInputDto input)
+        {
+            var entity = await _databaseContext.Events.Where(e => e.Id == id).Include(e => e.EventAttendants).FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                var updatedEntity = entity.UpdateEntity(input);
+
+                if (input.EventAttendants != null)
+                {
+                    var entityAttendantIds = entity.EventAttendants.Select(e => e.AttendantId).ToList();
+                    var inputAttendantIds = input.EventAttendants.Select(e => e.AttendantId).ToList();
+
+                    var idsToRemove = entityAttendantIds.Except(inputAttendantIds).ToList();
+                    var idsToInsert = inputAttendantIds.Except(entityAttendantIds).ToList();
+
+                    var attendantsToRemove = _databaseContext.EventAttendants.Where(e => idsToRemove.Contains(e.AttendantId));
+
+                    var teste = await attendantsToRemove.ToListAsync();
+
+                    _databaseContext.EventAttendants.RemoveRange(attendantsToRemove);
+
+                    var attentantsAlreadyInserted = _databaseContext.EventAttendants.Where(e => idsToInsert.Contains(e.AttendantId));
+
+                    var idsAlreadyInserted = attentantsAlreadyInserted.Select(e => e.AttendantId);
+
+                    idsToInsert = idsToInsert.Except(idsAlreadyInserted).ToList();
+
+                    var attendantsToInsert = idsToInsert.Select(id => new EventAttendantEntity()
+                    {
+                        AttendantId = id,
+                        EventId = entity.Id
+                    });
+
+                    await _databaseContext.EventAttendants.AddRangeAsync(attendantsToInsert);
+                }
+
+                await _databaseContext.SaveChangesAsync();
+                return entity.MapToDto();
+            }
+
+            return default;
         }
 
         public async Task<int> Count()
