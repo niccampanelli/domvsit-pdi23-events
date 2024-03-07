@@ -193,6 +193,25 @@ namespace Infrastructure.Repository
                 query = query.Where(e => e.ClientId == input.ClientId);
             }
 
+            if (input.OcurrenceMin != null)
+            {
+                query = query.Where(e => e.Ocurrence >=  input.OcurrenceMin);
+            }
+
+            if (input.OcurrenceMax != null)
+            {
+                query = query.Where(e => e.Ocurrence <= input.OcurrenceMax);
+            }
+
+            if (input.Search != null)
+            {
+                query = query.Where(e =>
+                    e.Title.ToLower().Trim().Contains(input.Search.ToLower().Trim()) ||
+                    e.Description.ToLower().Trim().Contains(input.Search.ToLower().Trim()) ||
+                    (e.Link ?? "").ToLower().Trim().Contains(input.Search.ToLower().Trim())
+                );
+            }
+
             var result = query.Select(e => e.MapToDto());
             return await result.ToListAsync();
         }

@@ -46,5 +46,26 @@ namespace Application.Event.Boundaries.List
             Format = "long"
             )]
         public long? ClientId { get; set; }
+
+        [SwaggerSchema(
+            Title = "Data mínima",
+            Description = "Data mínima de ocorrência do evento",
+            Format = "DateTime"
+            )]
+        public DateTime? OcurrenceMin { get; set; }
+
+        [SwaggerSchema(
+            Title = "Data máxima",
+            Description = "Data máxima de ocorrência do evento",
+            Format = "DateTime"
+            )]
+        public DateTime? OcurrenceMax { get; set; }
+
+        [SwaggerSchema(
+            Title = "Pesquisa",
+            Description = "Texto de pesquisa para procurar entre os atributos do evento",
+            Format = "string"
+            )]
+        public string? Search { get; set; }
     }
 }

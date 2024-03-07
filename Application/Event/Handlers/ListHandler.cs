@@ -31,7 +31,11 @@ namespace Application.Event.Handlers
 
                 var listInput = new ListInputDto()
                 {
-                    ConsultorId = input.ConsultorId
+                    ConsultorId = input.ConsultorId,
+                    ClientId = input.ClientId,
+                    OcurrenceMin = input.OcurrenceMin,
+                    OcurrenceMax = input.OcurrenceMax,
+                    Search = input.Search
                 };
 
                 var paginationInput = new PaginationInputDto()
