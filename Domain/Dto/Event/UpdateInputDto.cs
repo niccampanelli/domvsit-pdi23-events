@@ -8,6 +8,7 @@
         public string? Link { get; set; }
         public DateTime? Ocurrence { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public bool? Status { get; set; }
         public List<UpdateEventAttendantInputDto>? EventAttendants { get; set; }
     }
 }

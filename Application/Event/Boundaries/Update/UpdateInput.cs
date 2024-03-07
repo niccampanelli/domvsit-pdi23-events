@@ -47,6 +47,13 @@ namespace Application.Event.Boundaries.Update
         public DateTime? Ocurrence { get; set; }
 
         [SwaggerSchema(
+            Title = "Status",
+            Description = "Se o evento está marcado ou foi desmarcado",
+            Format = "bool"
+            )]
+        public bool Status { get; set; }
+
+        [SwaggerSchema(
             Title = "Participantes do evento",
             Description = "Participantes que precisam estar no evento",
             Format = "List<UpdateEventAttendantInput>"

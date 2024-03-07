@@ -66,6 +66,7 @@ namespace Application.Event.Handlers
                         Ocurrence = e.Ocurrence,
                         CreatedAt = e.CreatedAt ?? DateTime.UtcNow,
                         UpdatedAt = e.UpdatedAt ?? DateTime.UtcNow,
+                        Status = e.Status,
                         EventAttendants = e.EventAttendants.Select(e => new ListEventAttendantOutput()
                         {
                             Id = e.Id ?? 0L,

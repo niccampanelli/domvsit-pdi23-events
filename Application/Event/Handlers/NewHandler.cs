@@ -41,6 +41,7 @@ namespace Application.Event.Handlers
                     ConsultorId = input.ConsultorId,
                     ClientId = input.ClientId,
                     Ocurrence = input.Ocurrence,
+                    Status = true,
                     EventAttendants = input.EventAttendants.Select(e => new EventAttendantDto()
                     {
                         AttendantId = e.AttendantId

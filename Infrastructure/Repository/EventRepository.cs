@@ -5,7 +5,6 @@ using Domain.Mappers.Event;
 using Domain.Repository;
 using Infrastructure.Setup;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Infrastructure.Repository
 {
@@ -73,16 +72,47 @@ namespace Infrastructure.Repository
         public async Task Accept(AcceptInputDto input)
         {
             var entity = await _databaseContext.EventAttendants.Where(e => e.EventId == input.EventId).Where(e => e.AttendantId == input.AttendantId).FirstOrDefaultAsync();
+            var eventEntity = await _databaseContext.Events.Where(e => e.Id == input.EventId).FirstOrDefaultAsync();
 
             if (entity != null)
             {
                 if (input.Accepted != null)
                 {
-                    entity.Accepted = (bool) input.Accepted;
+                    entity.Accepted = (bool)input.Accepted;
                 }
                 else
                 {
                     entity.Accepted = !entity.Accepted;
+                }
+
+                if (eventEntity != null)
+                {
+                    eventEntity.UpdatedAt = DateTime.UtcNow;
+                }
+
+                await _databaseContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task ShowUp(ShowUpInputDto input)
+        {
+            var entity = await _databaseContext.EventAttendants.Where(e => e.EventId == input.EventId).Where(e => e.AttendantId == input.AttendantId).FirstOrDefaultAsync();
+            var eventEntity = await _databaseContext.Events.Where(e => e.Id == input.EventId).FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                if (input.ShowedUp != null)
+                {
+                    entity.ShowedUp = (bool)input.ShowedUp;
+                }
+                else
+                {
+                    entity.ShowedUp = !entity.ShowedUp;
+                }
+
+                if (eventEntity != null)
+                {
+                    eventEntity.UpdatedAt = DateTime.UtcNow;
                 }
 
                 await _databaseContext.SaveChangesAsync();
@@ -91,13 +121,14 @@ namespace Infrastructure.Repository
 
         public async Task<int> Count()
         {
-            var result = await _databaseContext.Events.CountAsync();
+            var result = await _databaseContext.Events.Where(e => e.Status == true).CountAsync();
             return result;
         }
 
         public async Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting)
         {
             var query = _databaseContext.Events.AsQueryable();
+            query = query.Where(e => e.Status == true);
             query = query.Include(e => e.EventAttendants);
 
             if (sorting?.SortField != null)

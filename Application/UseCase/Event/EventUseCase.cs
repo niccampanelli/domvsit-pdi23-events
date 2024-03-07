@@ -36,6 +36,11 @@ namespace Application.UseCase.Event
             await _eventRepository.Accept(input);
         }
 
+        public async Task ShowUp(ShowUpInputDto input)
+        {
+            await _eventRepository.ShowUp(input);
+        }
+
         public async Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting)
         {
             return await _eventRepository.List(input, pagination, sorting);

@@ -19,6 +19,7 @@ namespace Domain.Mappers.Event
                 Ocurrence = input.Ocurrence,
                 CreatedAt = input.CreatedAt,
                 UpdatedAt = input.UpdatedAt,
+                Status = input.Status,
                 EventAttendants = input.EventAttendants != null ? input.EventAttendants.Select(e => e.MapToEntity()).ToList() : new List<EventAttendantEntity>()
             };
         }
@@ -37,6 +38,7 @@ namespace Domain.Mappers.Event
                 Ocurrence = input.Ocurrence,
                 CreatedAt = input.CreatedAt,
                 UpdatedAt = input.UpdatedAt,
+                Status = input.Status,
                 EventAttendants = input.EventAttendants != null ? input.EventAttendants.Select(e => e.MapToDto()).ToList() : new List<EventAttendantDto>()
             };
         }
@@ -52,6 +54,7 @@ namespace Domain.Mappers.Event
             entity.Ocurrence = input.Ocurrence ?? entity.Ocurrence;
             entity.CreatedAt = entity.CreatedAt;
             entity.UpdatedAt = input.UpdatedAt;
+            entity.Status = input.Status == null ? entity.Status : (bool)input.Status;
             entity.EventAttendants ??= new List<EventAttendantEntity>();
 
             return entity;

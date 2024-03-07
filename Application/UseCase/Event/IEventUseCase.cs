@@ -8,6 +8,7 @@ namespace Application.UseCase.Event
         Task<EventDto> New(EventDto input);
         Task<EventDto> Update(long id, UpdateInputDto input);
         Task Accept(AcceptInputDto input);
+        Task ShowUp(ShowUpInputDto input);
         Task<int> Count();
         Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting);
     }

@@ -32,6 +32,7 @@ namespace Application.Event.Handlers
                     Tags = input.Tags,
                     Link = input.Link,
                     Ocurrence = input.Ocurrence,
+                    Status = input.Status,
                     EventAttendants = input.EventAttendants != null ? input.EventAttendants.Select(e => new UpdateEventAttendantInputDto()
                     {
                         AttendantId = e.AttendantId

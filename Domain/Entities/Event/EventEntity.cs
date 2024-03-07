@@ -32,6 +32,8 @@ namespace Domain.Entities.Event
 
         public DateTime? UpdatedAt { get; set; }
 
+        public bool Status { get; set; }
+
         public List<EventAttendantEntity> EventAttendants { get; set; }
     }
 }

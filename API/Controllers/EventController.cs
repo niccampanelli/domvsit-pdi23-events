@@ -2,6 +2,7 @@
 using Application.Event.Boundaries.Accept;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
+using Application.Event.Boundaries.ShowUp;
 using Application.Event.Boundaries.Update;
 using Application.Event.Commands;
 using Domain.Base.Communication.Mediator;
@@ -101,6 +102,7 @@ namespace API.Controllers
                 Link = input.Link,
                 Tags = input.Tags,
                 Ocurrence = input.Ocurrence,
+                Status = input.Status,
                 EventAttendants = input.EventAttendants
             };
 
@@ -133,6 +135,33 @@ namespace API.Controllers
 
             var command = new AcceptCommand(commandInput);
             var result = await _mediatorHandler.SendCommand<AcceptCommand, AcceptOutput>(command);
+
+            if (IsValidOperation())
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(GetMessages());
+            }
+        }
+
+        [HttpPost("[action]/{id}")]
+        [SwaggerOperation(Summary = "Comparecer ao evento", Description = "Registra que o participante que realizou a solicitação compareceu ao evento.")]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(ShowUpOutput))]
+        [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
+        [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
+        public async Task<IActionResult> ShowUp(long id, [FromBody] ShowUpControllerInput? input)
+        {
+            var commandInput = new ShowUpInput()
+            {
+                EventId = id,
+                AttendantId = input?.AttendantId ?? 1L,
+                ShowedUp = input?.ShowedUp
+            };
+
+            var command = new ShowUpCommand(commandInput);
+            var result = await _mediatorHandler.SendCommand<ShowUpCommand, ShowUpOutput>(command);
 
             if (IsValidOperation())
             {
