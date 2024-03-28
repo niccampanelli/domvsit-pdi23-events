@@ -69,6 +69,41 @@ namespace Infrastructure.Repository
             return default;
         }
 
+        public async Task<bool> Delete(long id)
+        {
+            var entity = await _databaseContext.Events.Where(e => e.Id == id).FirstOrDefaultAsync();
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            _databaseContext.Events.Remove(entity);
+            await _databaseContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteByParams(DeleteByParamsInputDto input)
+        {
+            var query = _databaseContext.Events.AsQueryable();
+
+            if (input.ClientId != null)
+            {
+                query = query.Where(e => e.ClientId == input.ClientId);
+            }
+
+            var entities = await query.ToListAsync();
+
+            if (!entities.Any())
+            {
+                return false;
+            }
+
+            _databaseContext.Events.RemoveRange(entities);
+            await _databaseContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task Accept(AcceptInputDto input)
         {
             var entity = await _databaseContext.EventAttendants.Where(e => e.EventId == input.EventId).Where(e => e.AttendantId == input.AttendantId).FirstOrDefaultAsync();
@@ -128,7 +163,16 @@ namespace Infrastructure.Repository
         public async Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting)
         {
             var query = _databaseContext.Events.AsQueryable();
-            query = query.Where(e => e.Status == true);
+
+            query = query.Where(e => input.ShowUnmarked.HasValue ?
+                input.ShowUnmarked.Value == true ?
+                    true
+                    :
+                    e.Status == true
+                :
+                e.Status == true
+            );
+
             query = query.Include(e => e.EventAttendants);
 
             if (input.ConsultorId != null)

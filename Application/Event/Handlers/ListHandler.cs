@@ -35,6 +35,7 @@ namespace Application.Event.Handlers
                     ClientId = input.ClientId,
                     OcurrenceMin = input.OcurrenceMin,
                     OcurrenceMax = input.OcurrenceMax,
+                    ShowUnmarked = input.ShowUnmarked,
                     Search = input.Search
                 };
 

@@ -7,6 +7,8 @@ namespace Domain.Repository
     {
         Task<EventDto> New(EventDto input);
         Task<EventDto> Update(long id, UpdateInputDto input);
+        Task<bool> Delete(long id);
+        Task<bool> DeleteByParams(DeleteByParamsInputDto input);
         Task Accept(AcceptInputDto input);
         Task ShowUp(ShowUpInputDto input);
         Task<int> Count();

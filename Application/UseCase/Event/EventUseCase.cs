@@ -26,6 +26,16 @@ namespace Application.UseCase.Event
             return await _eventRepository.Update(id, input);
         }
 
+        public async Task<bool> Delete(long id)
+        {
+            return await _eventRepository.Delete(id);
+        }
+
+        public async Task<bool> DeleteByParams(DeleteByParamsInputDto input)
+        {
+            return await _eventRepository.DeleteByParams(input);
+        }
+
         public async Task<int> Count()
         {
             return await _eventRepository.Count();

@@ -1,5 +1,7 @@
 ﻿using Application.Boundaries.Commom;
 using Application.Event.Boundaries.Accept;
+using Application.Event.Boundaries.Delete;
+using Application.Event.Boundaries.DeleteByParams;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
 using Application.Event.Boundaries.ShowUp;
@@ -23,6 +25,8 @@ namespace API.Setup
             services.AddScoped<INotificationHandler<DomainNotification>, DomainNotificationHandler>();
 
             services.AddTransient<IRequestHandler<AcceptCommand, AcceptOutput>, AcceptHandler>();
+            services.AddTransient<IRequestHandler<DeleteCommand, DeleteOutput>, DeleteHandler>();
+            services.AddTransient<IRequestHandler<DeleteByParamsCommand, DeleteByParamsOutput>, DeleteByParamsHandler>();
             services.AddTransient<IRequestHandler<ListCommand, PaginatedResponse<ListOutput>>, ListHandler>();
             services.AddTransient<IRequestHandler<NewCommand, NewOutput>, NewHandler>();
             services.AddTransient<IRequestHandler<ShowUpCommand, ShowUpOutput>, ShowUpHandler>();

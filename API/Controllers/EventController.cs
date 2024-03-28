@@ -1,5 +1,7 @@
 ﻿using Application.Boundaries.Commom;
 using Application.Event.Boundaries.Accept;
+using Application.Event.Boundaries.Delete;
+using Application.Event.Boundaries.DeleteByParams;
 using Application.Event.Boundaries.List;
 using Application.Event.Boundaries.New;
 using Application.Event.Boundaries.ShowUp;
@@ -108,6 +110,51 @@ namespace API.Controllers
 
             var command = new UpdateCommand(commandInput);
             var result = await _mediatorHandler.SendCommand<UpdateCommand, UpdateOutput>(command);
+
+            if (IsValidOperation())
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(GetMessages());
+            }
+        }
+
+        [HttpDelete("[action]/{id}")]
+        [SwaggerOperation(Summary = "Deletar evento", Description = "Deleta o evento com o id fornecido")]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(DeleteOutput))]
+        [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
+        [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var input = new DeleteInput()
+            {
+                Id = id
+            };
+
+            var command = new DeleteCommand(input);
+            var result = await _mediatorHandler.SendCommand<DeleteCommand, DeleteOutput>(command);
+
+            if (IsValidOperation())
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(GetMessages());
+            }
+        }
+
+        [HttpPost("[action]")]
+        [SwaggerOperation(Summary = "Deletar evento", Description = "Deleta o evento de acordo com os parâmetros")]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(DeleteByParamsOutput))]
+        [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
+        [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
+        public async Task<IActionResult> Delete([FromBody] DeleteByParamsInput input)
+        {
+            var command = new DeleteByParamsCommand(input);
+            var result = await _mediatorHandler.SendCommand<DeleteByParamsCommand, DeleteByParamsOutput>(command);
 
             if (IsValidOperation())
             {

@@ -62,6 +62,13 @@ namespace Application.Event.Boundaries.List
         public DateTime? OcurrenceMax { get; set; }
 
         [SwaggerSchema(
+            Title = "Mostrar desmarcados",
+            Description = "Mostrar eventos desmarcados",
+            Format = "bool"
+            )]
+        public bool? ShowUnmarked { get; set; }
+
+        [SwaggerSchema(
             Title = "Pesquisa",
             Description = "Texto de pesquisa para procurar entre os atributos do evento",
             Format = "string"

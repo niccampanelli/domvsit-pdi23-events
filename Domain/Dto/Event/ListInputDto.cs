@@ -6,6 +6,7 @@
         public long? ClientId { get; set; }
         public DateTime? OcurrenceMin { get; set; }
         public DateTime? OcurrenceMax { get; set; }
+        public bool? ShowUnmarked { get; set; }
         public string? Search { get; set; }
     }
 }
