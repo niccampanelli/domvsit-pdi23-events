@@ -1,4 +1,9 @@
 ﻿using Application.Boundaries.Commom;
+using Application.Chart.Boundaries.MarkedUnmarked;
+using Application.Chart.Boundaries.ShowedUpByClient;
+using Application.Chart.Boundaries.ShowedUpPercentages;
+using Application.Chart.Commands;
+using Application.Chart.Handlers;
 using Application.Event.Boundaries.Accept;
 using Application.Event.Boundaries.Delete;
 using Application.Event.Boundaries.DeleteByParams;
@@ -31,6 +36,10 @@ namespace API.Setup
             services.AddTransient<IRequestHandler<NewCommand, NewOutput>, NewHandler>();
             services.AddTransient<IRequestHandler<ShowUpCommand, ShowUpOutput>, ShowUpHandler>();
             services.AddTransient<IRequestHandler<UpdateCommand, UpdateOutput>, UpdateHandler>();
+
+            services.AddTransient<IRequestHandler<ShowedUpPercentagesCommand, ShowedUpPercentagesOutput>, ShowedUpPercentagesHandler>();
+            services.AddTransient<IRequestHandler<MarkedUnmarkedCommand, List<MarkedUnmarkedOutput>>, MarkedUnmarkedHandler>();
+            services.AddTransient<IRequestHandler<ShowedUpByClientCommand, List<ShowedUpByClientOutput>>, ShowedUpByClientHandler>();
 
             services.AddScoped<IEventUseCase, EventUseCase>();
 

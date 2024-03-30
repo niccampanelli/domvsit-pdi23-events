@@ -259,5 +259,128 @@ namespace Infrastructure.Repository
             var result = query.Select(e => e.MapToDto());
             return await result.ToListAsync();
         }
+
+        public async Task<float> GetShowedUpPercentages(ShowedUpPercentagesInputDto input)
+        {
+            var query = _databaseContext.Events.AsQueryable();
+            query = query.Include(e => e.EventAttendants);
+
+            var showedUpCount = await query
+                .Join(
+                    _databaseContext.EventAttendants,
+                    e => e.Id,
+                    a => a.EventId,
+                    (e, a) => new
+                    {
+                        e.Ocurrence,
+                        a.EventId,
+                        a.ShowedUp
+                    }
+                )
+                .Where(ep =>
+                    ep.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
+                        input.Months.HasValue ? (input.Months.Value * -1) : -1
+                    ) &&
+                    ep.Ocurrence <= DateTimeOffset.UtcNow &&
+                    ep.ShowedUp
+                )
+                .GroupBy(ep => ep.Ocurrence)
+                .Select(g => new
+                {
+                    Ocurrence = g.Key,
+                    QuantidadeParticipantes = g.Count()
+                })
+                .SumAsync(g => g.QuantidadeParticipantes);
+
+            var totalCount = await query
+                .Join(
+                    _databaseContext.EventAttendants,
+                    e => e.Id,
+                    a => a.EventId,
+                    (e, a) => new
+                    {
+                        e.Ocurrence,
+                        a.EventId
+                    }
+                )
+                .Where(ep =>
+                    ep.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
+                        input.Months.HasValue ? (input.Months.Value * -1) : -1
+                    ) &&
+                    ep.Ocurrence <= DateTimeOffset.UtcNow
+                )
+                .GroupBy(ep => ep.Ocurrence)
+                .Select(g => new
+                {
+                    Ocurrence = g.Key,
+                    QuantidadeParticipantes = g.Count()
+                })
+                .SumAsync(g => g.QuantidadeParticipantes);
+
+            if (totalCount == 0)
+                return 0;
+
+            return (showedUpCount * 100) / totalCount;
+        }
+
+        public async Task<List<MarkedUnmarkedOutputDto>> GetMarkedUnmarked(MarkedUnmarkedInputDto input)
+        {
+            var query = _databaseContext.Events.AsQueryable();
+
+            var result = await query
+                .Where(e => e.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
+                        input.Months.HasValue ? (input.Months.Value * -1) : -1
+                    ) &&
+                    e.Ocurrence <= DateTimeOffset.UtcNow
+                )
+                .GroupBy(e => new
+                {
+                    Year = e.Ocurrence.Year,
+                    Month = e.Ocurrence.Month
+                })
+                .Select(g => new MarkedUnmarkedOutputDto()
+                {
+                    Month = new DateTime(g.Key.Year, g.Key.Month, 1),
+                    Marked = g.Count(e => e.Status),
+                    Unmarked = g.Count(e => !e.Status)
+                })
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<ShowedUpByClientOutputDto>> GetShowedUpByClient(ShowedUpByClientInputDto input)
+        {
+            var query = _databaseContext.Events.AsQueryable();
+            query = query.Include(e => e.EventAttendants);
+
+            var result = await query
+                .Where(e => e.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
+                        input.Months.HasValue ? (input.Months.Value * -1) : -1
+                    ) &&
+                    e.Ocurrence <= DateTimeOffset.UtcNow
+                )
+                .Join(
+                    _databaseContext.EventAttendants,
+                    e => e.Id,
+                    ea => ea.EventId,
+                    (e, ea) => new
+                    {
+                        Event = e,
+                        EventAttendant = ea
+                    }
+                )
+                .Where(ea => !ea.EventAttendant.ShowedUp)
+                .GroupBy(e => e.Event.ClientId)
+                .Select(g => new ShowedUpByClientOutputDto()
+                {
+                    EventCount = g.Count(),
+                    ClientId = g.Key
+                })
+                .OrderByDescending(g => g.EventCount)
+                .ToListAsync();
+
+            return result;
+        }
     }
 }

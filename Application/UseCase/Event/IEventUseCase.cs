@@ -13,5 +13,8 @@ namespace Application.UseCase.Event
         Task ShowUp(ShowUpInputDto input);
         Task<int> Count();
         Task<List<EventDto>> List(ListInputDto input, PaginationInputDto? pagination, SortingInputDto? sorting);
+        Task<float> GetShowedUpPercentages(ShowedUpPercentagesInputDto input);
+        Task<List<MarkedUnmarkedOutputDto>> GetMarkedUnmarked(MarkedUnmarkedInputDto input);
+        Task<List<ShowedUpByClientOutputDto>> GetShowedUpByClient(ShowedUpByClientInputDto input);
     }
 }

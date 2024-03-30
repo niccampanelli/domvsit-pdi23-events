@@ -55,5 +55,20 @@ namespace Application.UseCase.Event
         {
             return await _eventRepository.List(input, pagination, sorting);
         }
+
+        public async Task<float> GetShowedUpPercentages(ShowedUpPercentagesInputDto input)
+        {
+            return await _eventRepository.GetShowedUpPercentages(input);
+        }
+
+        public async Task<List<MarkedUnmarkedOutputDto>> GetMarkedUnmarked(MarkedUnmarkedInputDto input)
+        {
+            return await _eventRepository.GetMarkedUnmarked(input);
+        }
+
+        public async Task<List<ShowedUpByClientOutputDto>> GetShowedUpByClient(ShowedUpByClientInputDto input)
+        {
+            return await _eventRepository.GetShowedUpByClient(input);
+        }
     }
 }
