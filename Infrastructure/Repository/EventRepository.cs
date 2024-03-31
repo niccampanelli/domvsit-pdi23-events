@@ -382,5 +382,41 @@ namespace Infrastructure.Repository
 
             return result;
         }
+
+        public async Task<List<ShowedUpByAttendantOutputDto>> GetShowedUpByAttendant(ShowedUpByAttendantInputDto input)
+        {
+            var query = _databaseContext.Events.AsQueryable();
+            query = query.Include(e => e.EventAttendants);
+
+            var result = await query
+                .Where(
+                    e => e.ClientId == input.ClientId &&
+                    e.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
+                        input.Months.HasValue ? (input.Months.Value * -1) : -1
+                    ) &&
+                    e.Ocurrence <= DateTimeOffset.UtcNow
+                )
+                .Join(
+                    _databaseContext.EventAttendants,
+                    e => e.Id,
+                    ea => ea.EventId,
+                    (e, ea) => new
+                    {
+                        Event = e,
+                        EventAttendant = ea
+                    }
+                )
+                .Where(ea => !ea.EventAttendant.ShowedUp)
+                .GroupBy(ea => ea.EventAttendant.AttendantId)
+                .Select(g => new ShowedUpByAttendantOutputDto()
+                {
+                    EventCount = g.Count(),
+                    AttendantId = g.Key
+                })
+                .OrderByDescending(g => g.EventCount)
+                .ToListAsync();
+
+            return result;
+        }
     }
 }

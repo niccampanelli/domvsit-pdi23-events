@@ -16,5 +16,6 @@ namespace Domain.Repository
         Task<float> GetShowedUpPercentages(ShowedUpPercentagesInputDto input);
         Task<List<MarkedUnmarkedOutputDto>> GetMarkedUnmarked(MarkedUnmarkedInputDto input);
         Task<List<ShowedUpByClientOutputDto>> GetShowedUpByClient(ShowedUpByClientInputDto input);
+        Task<List<ShowedUpByAttendantOutputDto>> GetShowedUpByAttendant(ShowedUpByAttendantInputDto input);
     }
 }

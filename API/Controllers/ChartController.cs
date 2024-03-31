@@ -1,4 +1,5 @@
 ﻿using Application.Chart.Boundaries.MarkedUnmarked;
+using Application.Chart.Boundaries.ShowedUpByAttendant;
 using Application.Chart.Boundaries.ShowedUpByClient;
 using Application.Chart.Boundaries.ShowedUpPercentages;
 using Application.Chart.Commands;
@@ -84,13 +85,13 @@ namespace API.Controllers
 
         [HttpGet("[action]")]
         [SwaggerOperation(Summary = "Eventos não comparecidos por participantes", Description = "Quantidade de eventos que não foram comparecidos por cada participante")]
-        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(List<ShowedUpByClientOutput>))]
+        [SwaggerResponse(201, Description = "Sucesso", Type = typeof(List<ShowedUpByAttendantOutput>))]
         [SwaggerResponse(400, Description = "Erros 400", Type = typeof(List<string>))]
         [SwaggerResponse(500, Description = "Erros 500", Type = typeof(List<string>))]
-        public async Task<IActionResult> ShowedUpByAttendant([FromQuery] ShowedUpByClientInput input)
+        public async Task<IActionResult> ShowedUpByAttendant([FromQuery] ShowedUpByAttendantInput input)
         {
-            var command = new ShowedUpByClientCommand(input);
-            var result = await _mediatorHandler.SendCommand<ShowedUpByClientCommand, List<ShowedUpByClientOutput>>(command);
+            var command = new ShowedUpByAttendantCommand(input);
+            var result = await _mediatorHandler.SendCommand<ShowedUpByAttendantCommand, List<ShowedUpByAttendantOutput>>(command);
 
             if (IsValidOperation())
             {

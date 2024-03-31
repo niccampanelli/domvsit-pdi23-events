@@ -1,5 +1,6 @@
 ﻿using Application.Boundaries.Commom;
 using Application.Chart.Boundaries.MarkedUnmarked;
+using Application.Chart.Boundaries.ShowedUpByAttendant;
 using Application.Chart.Boundaries.ShowedUpByClient;
 using Application.Chart.Boundaries.ShowedUpPercentages;
 using Application.Chart.Commands;
@@ -40,6 +41,7 @@ namespace API.Setup
             services.AddTransient<IRequestHandler<ShowedUpPercentagesCommand, ShowedUpPercentagesOutput>, ShowedUpPercentagesHandler>();
             services.AddTransient<IRequestHandler<MarkedUnmarkedCommand, List<MarkedUnmarkedOutput>>, MarkedUnmarkedHandler>();
             services.AddTransient<IRequestHandler<ShowedUpByClientCommand, List<ShowedUpByClientOutput>>, ShowedUpByClientHandler>();
+            services.AddTransient<IRequestHandler<ShowedUpByAttendantCommand, List<ShowedUpByAttendantOutput>>, ShowedUpByAttendantHandler>();
 
             services.AddScoped<IEventUseCase, EventUseCase>();
 

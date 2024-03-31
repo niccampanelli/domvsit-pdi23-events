@@ -70,5 +70,10 @@ namespace Application.UseCase.Event
         {
             return await _eventRepository.GetShowedUpByClient(input);
         }
+
+        public async Task<List<ShowedUpByAttendantOutputDto>> GetShowedUpByAttendant(ShowedUpByAttendantInputDto input)
+        {
+            return await _eventRepository.GetShowedUpByAttendant(input);
+        }
     }
 }
