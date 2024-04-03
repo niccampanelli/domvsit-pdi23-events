@@ -27,7 +27,8 @@ namespace Application.Chart.Handlers
 
                 var getMarkedUnmarkedInput = new MarkedUnmarkedInputDto()
                 {
-                    Months = input.Months
+                    Months = input.Months,
+                    ConsultorId = input.ConsultorId
                 };
 
                 var result = await _eventUseCase.GetMarkedUnmarked(getMarkedUnmarkedInput);

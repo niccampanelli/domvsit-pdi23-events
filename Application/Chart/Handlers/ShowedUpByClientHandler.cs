@@ -28,7 +28,8 @@ namespace Application.Chart.Handlers
 
                 var getShowedUpByClientInput = new ShowedUpByClientInputDto()
                 {
-                    Months = input.Months
+                    Months = input.Months,
+                    ConsultorId = input.ConsultorId
                 };
 
                 var result = await _eventUseCase.GetShowedUpByClient(getShowedUpByClientInput);

@@ -27,7 +27,8 @@ namespace Application.Chart.Handlers
 
                 var getPercentagesInput = new ShowedUpPercentagesInputDto()
                 {
-                    Months = input.Months
+                    Months = input.Months,
+                    ConsultorId = input.ConsultorId
                 };
 
                 var percentage = await _eventUseCase.GetShowedUpPercentages(getPercentagesInput);

@@ -265,6 +265,11 @@ namespace Infrastructure.Repository
             var query = _databaseContext.Events.AsQueryable();
             query = query.Include(e => e.EventAttendants);
 
+            if (input.ConsultorId.HasValue)
+            {
+                query = query.Where(e => e.ConsultorId == input.ConsultorId.Value);
+            }
+
             var showedUpCount = await query
                 .Join(
                     _databaseContext.EventAttendants,
@@ -273,6 +278,7 @@ namespace Infrastructure.Repository
                     (e, a) => new
                     {
                         e.Ocurrence,
+                        e.ConsultorId,
                         a.EventId,
                         a.ShowedUp
                     }
@@ -282,6 +288,7 @@ namespace Infrastructure.Repository
                         input.Months.HasValue ? (input.Months.Value * -1) : -1
                     ) &&
                     ep.Ocurrence <= DateTimeOffset.UtcNow &&
+                    
                     ep.ShowedUp
                 )
                 .GroupBy(ep => ep.Ocurrence)
@@ -327,6 +334,11 @@ namespace Infrastructure.Repository
         {
             var query = _databaseContext.Events.AsQueryable();
 
+            if (input.ConsultorId.HasValue)
+            {
+                query = query.Where(e => e.ConsultorId == input.ConsultorId.Value);
+            }
+
             var result = await query
                 .Where(e => e.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(
                         input.Months.HasValue ? (input.Months.Value * -1) : -1
@@ -353,6 +365,11 @@ namespace Infrastructure.Repository
         {
             var query = _databaseContext.Events.AsQueryable();
             query = query.Include(e => e.EventAttendants);
+
+            if (input.ConsultorId.HasValue)
+            {
+                query = query.Where(e => e.ConsultorId == input.ConsultorId.Value);
+            }
 
             var result = await query
                 .Where(e => e.Ocurrence >= DateTimeOffset.UtcNow.AddMonths(

@@ -9,6 +9,8 @@ namespace Application.Chart.Commands.Validations
         {
             RuleFor(i => i.Months)
                 .GreaterThan(0).WithMessage("O período de meses deve ser maior que 0");
+            RuleFor(i => i.ConsultorId)
+                .GreaterThan(0).WithMessage("Consultor inválido");
         }
     }
 }
